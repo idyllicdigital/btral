@@ -1,9 +1,20 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
+
+/*
+/ip firewall address-list
+add list=dlford-blocklist address=0.0.0.0
+...
+*/
 
 func convertHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello World"))
+	u := r.URL.Query().Get("url")
+	l := r.URL.Query().Get("listname")
+
+	w.Write([]byte(l + ": " + u))
 }
 
 func main() {
