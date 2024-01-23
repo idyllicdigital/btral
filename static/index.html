@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="ie=edge" />
+    <title>BTRAL</title>
+    <link
+      rel="stylesheet"
+      href="index.css" />
+  </head>
+  <body>
+    <main class="content">
+      <h1>B.T.R.A.L.</h1>
+      <p>
+        B.T.R.A.L. converts IP address Blocklists to RouterOS Address Lists.
+      </p>
+      <p>
+        RouterOS unfortunately lacks the ability to import IP address blocklists,
+        so this tool converts them to RouterOS Address List creation scripts.
+      </p>
+      <form id="form" method="post">
+        <label for="btralinstance">
+          BTRAL Instance
+          <input
+            id="btralinstance"
+            name="btralinstance"
+            type="url"
+            value="https://btral.dlford.io"
+            autocomplete="off"
+            required />
+        </label>
+        <label for="blocklisturl">
+          Blocklist URL
+          <input
+            id="blocklisturl"
+            name="blocklisturl"
+            type="url"
+            value="https://raw.githubusercontent.com/dlford/blocklist/master/blocklist.txt"
+            autocomplete="off"
+            required />
+        </label>
+        <label for="addresslistname">
+          Address List Name
+          <input
+            id="addresslistname"
+            name="addresslistname"
+            type="text"
+            placeholder="dlford-blocklist"
+            autocomplete="off"
+            required />
+        </label>
+        <label for="syncinterval">
+          Sync Interval
+          <input
+            id="syncinterval"
+            name="syncinterval"
+            type="text"
+            placeholder="e.g. 15m or 1d"
+            autocomplete="off"
+            required />
+        </label>
+        <button id="submit" type="submit">Convert</button>
+      </form>
+      <div id="output"></div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
