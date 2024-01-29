@@ -11,6 +11,19 @@ if (document.readyState === 'complete') {
 function main() {
   const form = document.getElementById('form');
   form.addEventListener('submit', handleSubmit);
+
+  const previewButton = document.getElementById('show-conversion');
+  previewButton.addEventListener('click', handlePreview);
+
+  form.addEventListener('change', function (event) {
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    if (data.blocklisturl && data.addresslistname) {
+      previewButton.disabled = false;
+    } else {
+      previewButton.disabled = true;
+    }
+  });
 }
 
 function handleSubmit(event) {
@@ -31,11 +44,7 @@ function writeScript({
   syncinterval,
   storagepath,
 }) {
-  if (
-    !blocklisturl ||
-    !addresslistname ||
-    !syncinterval
-  ) {
+  if (!blocklisturl || !addresslistname || !syncinterval) {
     handleError(new Error('Missing required fields'));
     return;
   }
@@ -43,11 +52,35 @@ function writeScript({
   const btralinstance = window.location.origin;
 
   return `/system script
-add name="${addresslistname}-sync" source={/tool fetch dst-path=${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc url="${btralinstance}/convert?url=${encodeURIComponent(
+add name="${addresslistname}-sync" source={/tool fetch dst-path=${
+    storagepath ? storagepath + '/' : ''
+  }${addresslistname}_latest.rsc url="${btralinstance}/convert?url=${encodeURIComponent(
     blocklisturl,
-  )}&listname=${encodeURIComponent(addresslistname)}" mode=https; /ip firewall address-list remove [find where list="${addresslistname}"]; /import file-name=${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc; /file remove ${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc}
+  )}&listname=${encodeURIComponent(
+    addresslistname,
+  )}" mode=https; /ip firewall address-list remove [find where list="${addresslistname}"]; /import file-name=${
+    storagepath ? storagepath + '/' : ''
+  }${addresslistname}_latest.rsc; /file remove ${
+    storagepath ? storagepath + '/' : ''
+  }${addresslistname}_latest.rsc}
 /system scheduler
 add interval=${syncinterval} name="${addresslistname}-sync-schedule" start-date=Jan/01/2000 start-time=00:00:00 on-event=${addresslistname}-sync`;
+}
+
+function handlePreview(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('form');
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+
+  Object.assign(document.createElement('a'), {
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    href: `/convert?url=${encodeURIComponent(
+      data.blocklisturl,
+    )}&listname=${encodeURIComponent(data.addresslistname)}`,
+  }).click();
 }
 
 function handleError(error) {

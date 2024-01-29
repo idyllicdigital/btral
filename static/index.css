@@ -75,6 +75,12 @@ input {
   color: var(--color-tertiary);
 }
 
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 button {
   margin: 12px auto;
   background-color: var(--color-secondary);
@@ -84,6 +90,12 @@ button {
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--color-tertiary);
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 #output {

@@ -39,6 +39,13 @@ add address=1.1.1.1 list=your-ip-list-name</code></pre>
         blocklist into RouterOS and create a schedule to keep it
         updated.
       </p>
+      <p>
+        The "See Converted List" button will show the converted
+        blocklist as a RouterOS script in a new tab, this is what will
+        be loaded into your RouterOS device each time the list is
+        synced. This button only becomes available after "Blocklist URL"
+        and "Address List Name" have been filled out.
+      </p>
       <form
         id="form"
         method="post">
@@ -107,11 +114,19 @@ add address=1.1.1.1 list=your-ip-list-name</code></pre>
             large lists)</span
           >
         </div>
-        <button
-          id="submit"
-          type="submit">
-          Convert
-        </button>
+        <div class="button-group">
+          <button
+            id="submit"
+            type="submit">
+            Convert
+          </button>
+          <button
+            disabled
+            id="show-conversion"
+            type="button">
+            See Converted List
+          </button>
+        </div>
       </form>
       <p>
         Copy the script below and paste it into your RouterOS terminal.
