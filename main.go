@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"regexp"
@@ -35,19 +36,22 @@ func convertHandler(w http.ResponseWriter, r *http.Request) {
 
 	res, err := http.Get(u)
 	if err != nil {
-		w.Write([]byte(""))
+		w.WriteHeader(500)
+		w.Write([]byte("# Unable to fetch URL, request error"))
 		return
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		w.Write([]byte(""))
+		w.WriteHeader(500)
+		w.Write([]byte("# Unable to fetch URL, status code: " + fmt.Sprint(res.StatusCode)))
 		return
 	}
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
-		w.Write([]byte(""))
+		w.WriteHeader(500)
+		w.Write([]byte("# Unable to fetch URL, error reading body"))
 		return
 	}
 
@@ -68,6 +72,12 @@ func convertHandler(w http.ResponseWriter, r *http.Request) {
 		if match != "" {
 			ips = append(ips, ip)
 		}
+	}
+
+	if len(ips) == 0 {
+		w.WriteHeader(500)
+		w.Write([]byte("# No IPs found in URL"))
+		return
 	}
 
 	w.Header().Set("Content-Type", "text/plain")

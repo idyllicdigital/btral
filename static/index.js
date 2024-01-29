@@ -29,18 +29,18 @@ function writeScript({
   blocklisturl,
   addresslistname,
   syncinterval,
-  btralinstance,
   storagepath,
 }) {
   if (
     !blocklisturl ||
     !addresslistname ||
-    !syncinterval ||
-    !btralinstance
+    !syncinterval
   ) {
     handleError(new Error('Missing required fields'));
     return;
   }
+
+  const btralinstance = window.location.origin;
 
   return `/system script
 add name="${addresslistname}-sync" source={/tool fetch dst-path=${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc url="${btralinstance}/convert?url=${encodeURIComponent(
