@@ -17,67 +17,132 @@
     <main class="content">
       <h1>B.T.R.A.L.</h1>
       <p>
-        B.T.R.A.L. converts IP address Blocklists to RouterOS Address Lists.
+        B.T.R.A.L. converts IP address Blocklists to RouterOS Address
+        Lists.
       </p>
       <p>
-        RouterOS unfortunately lacks the ability to import IP address blocklists,
-        so this tool converts them to RouterOS Address List creation scripts.
+        RouterOS unfortunately lacks the ability to import IP address
+        blocklists, so this tool converts them to RouterOS Address List
+        creation scripts.
       </p>
-      <form id="form" method="post">
-        <label for="btralinstance">
-          BTRAL Instance
-          <input
-            id="btralinstance"
-            name="btralinstance"
-            type="url"
-            value="https://btral.dlford.io"
-            autocomplete="off"
-            required />
-        </label>
-        <label for="blocklisturl">
-          Blocklist URL
-          <input
-            id="blocklisturl"
-            name="blocklisturl"
-            type="url"
-            value="https://raw.githubusercontent.com/dlford/blocklist/master/blocklist.txt"
-            autocomplete="off"
-            required />
-        </label>
-        <label for="addresslistname">
-          Address List Name
-          <input
-            id="addresslistname"
-            name="addresslistname"
-            type="text"
-            placeholder="dlford-blocklist"
-            autocomplete="off"
-            required />
-        </label>
-        <label for="syncinterval">
-          Sync Interval
-          <input
-            id="syncinterval"
-            name="syncinterval"
-            type="text"
-            placeholder="e.g. 15m or 1d"
-            autocomplete="off"
-            required />
-        </label>
-        <label for="storagepath">
-          Storage Path
-          <input
-            id="storagepath"
-            name="storagepath"
-            type="text"
-            placeholder="sd1"
-            autocomplete="off"
-            required />
-        </label>
-        <button id="submit" type="submit">Convert</button>
+      <p>For example; the following blocklist:</p>
+      <pre><code>0.0.0.0
+1.1.1.1
+; ...</code></pre>
+      <p>Would be converted to the following script:</p>
+      <pre><code>/ip firewall address-list
+add address=0.0.0.0 list=your-ip-list-name
+add address=1.1.1.1 list=your-ip-list-name</code></pre>
+      <h2>Script Generator</h2>
+      <p>
+        Fill out the form below to generate a script to import your
+        blocklist into RouterOS and create a schedule to keep it
+        updated.
+      </p>
+      <form
+        id="form"
+        method="post">
+        <div class="input">
+          <label for="btralinstance">
+            BTRAL Instance
+            <input
+              id="btralinstance"
+              name="btralinstance"
+              type="url"
+              value="https://btral.idyllicdigital.com"
+              autocomplete="off"
+              aria-describedby="btralinstance-hint"
+              required />
+          </label>
+          <span id="btralinstance-hint"
+            >If you are self-hosting, point this to your instance</span
+          >
+        </div>
+        <div class="input">
+          <label for="blocklisturl">
+            Blocklist URL
+            <input
+              id="blocklisturl"
+              name="blocklisturl"
+              type="url"
+              value="https://raw.githubusercontent.com/dlford/blocklist/master/blocklist.txt"
+              autocomplete="off"
+              aria-labelledby="blocklisturl-hint"
+              required />
+          </label>
+          <span id="blocklisturl-hint"
+            >URL to a public IP blocklist, this should be a new-line
+            separated list of IP Addresses, comments may be marked by
+            "<code>#</code>", "<code>//</code>", or
+            "<code>;</code>".</span
+          >
+        </div>
+        <div class="input">
+          <label for="addresslistname">
+            Address List Name
+            <input
+              id="addresslistname"
+              name="addresslistname"
+              type="text"
+              autocomplete="off"
+              value="blocklist1"
+              aria-labelledby="addresslistname-hint"
+              required />
+          </label>
+          <span id="addresslistname-hint"
+            >Name of the Address List in RouterOS</span
+          >
+        </div>
+        <div class="input">
+          <label for="syncinterval">
+            Sync Interval
+            <input
+              id="syncinterval"
+              name="syncinterval"
+              type="text"
+              autocomplete="off"
+              value="15m"
+              required />
+          </label>
+          <span id="syncinterval-hint"
+            >How often to download and apply the address list, for
+            example <code>15m</code> for every 15 minutes, or
+            <code>1d</code> for once per day</span
+          >
+        </div>
+        <div class="input">
+          <label for="storagepath">
+            Storage Path
+            <input
+              id="storagepath"
+              name="storagepath"
+              type="text"
+              value="sd1"
+              autocomplete="off" />
+          </label>
+          <span id="storagepath-hint"
+            >Path to store the address list, for example
+            <code>sd1</code> for the SD Card storage device, or leave
+            blank for the root path (using an SD Card is recommended for
+            large lists)</span
+          >
+        </div>
+        <button
+          id="submit"
+          type="submit">
+          Convert
+        </button>
       </form>
-      <div id="output"></div>
+      <p>
+        Copy the script below and paste it into your RouterOS terminal.
+      </p>
+      <div id="output">
+        <pre><code># Fill out the form to get your script.</code></pre>
+      </div>
     </main>
+    <footer>
+      <a href="https://www.idyllicdigital.com">Idyllic Digtal</a> © 2024
+    </footer>
     <script src="index.js"></script>
   </body>
 </html>

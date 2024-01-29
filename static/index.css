@@ -19,6 +19,20 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+body a {
+  color: var(--color-secondary);
+  font-weight: bold;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+  color: var(--color-secondary);
+}
+
 p {
   line-height: 1.25;
 }
@@ -27,4 +41,70 @@ p {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+form {
+  width: 100%;
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input > span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+input {
+  color: var(--color-tertiary);
+}
+
+button {
+  margin: 12px auto;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#output {
+  width: calc(100vw - 40px);
+  max-width: 800px;
+}
+
+pre {
+  background-color: var(--color-tertiary);
+  color: var(--color-primary);
+  padding: 12px 12px 16px;
+  border-radius: 4px;
+  overflow-x: scroll;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body > footer {
+  margin-top: auto;
+  padding: 20px 20px 40px;
+  text-align: center;
 }

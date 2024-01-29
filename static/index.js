@@ -36,19 +36,18 @@ function writeScript({
     !blocklisturl ||
     !addresslistname ||
     !syncinterval ||
-    !btralinstance ||
-    !storagepath
+    !btralinstance
   ) {
     handleError(new Error('Missing required fields'));
     return;
   }
 
   return `/system script
-add name="${addresslistname}-sync" source={/tool fetch dst-path=${storagepath}/${addresslistname}_latest.rsc url="${btralinstance}/convert?url=${encodeURIComponent(
+add name="${addresslistname}-sync" source={/tool fetch dst-path=${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc url="${btralinstance}/convert?url=${encodeURIComponent(
     blocklisturl,
-  )}&listname=${encodeURIComponent(addresslistname)}" mode=https; /ip firewall address-list remove [find where list="${addresslistname}"]; /import file-name=${storagepath}/${addresslistname}_latest.rsc; /file remove ${storagepath}/${addresslistname}_latest.rsc}
+  )}&listname=${encodeURIComponent(addresslistname)}" mode=https; /ip firewall address-list remove [find where list="${addresslistname}"]; /import file-name=${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc; /file remove ${storagepath ? storagepath + '/' : ''}${addresslistname}_latest.rsc}
 /system scheduler
-add interval=${syncinterval} name="dl-${addresslistname}" start-date=Jan/01/2000 start-time=00:00:00 on-event=${addresslistname}-sync`;
+add interval=${syncinterval} name="${addresslistname}-sync-schedule" start-date=Jan/01/2000 start-time=00:00:00 on-event=${addresslistname}-sync`;
 }
 
 function handleError(error) {
