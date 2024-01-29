@@ -11,7 +11,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./Dockerfile
-            image: ghcr.io/dlford/btral
+            image: ghcr.io/idyllicdigital/btral
             context: .
     permissions:
       contents: read
